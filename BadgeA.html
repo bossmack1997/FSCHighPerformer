@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FSC HIGH</title>
+  <style>
+body {
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  color: #111;
+
+  background: url("img/fsc.bg.jpg") no-repeat center center fixed;
+  background-size: cover;
+  background-color: #f7e7df;
+  position: relative;
+}
+
+.card {
+  width: min(920px, 94%);
+  padding: 32px;
+  border-radius: 20px;
+  position: relative;
+  z-index: 1;
+
+  background: linear-gradient(
+    135deg,
+    rgba(255,236,210,0.55) 0%,
+    rgba(252,182,159,0.45) 50%,
+    rgba(255,154,158,0.40) 100%
+  );
+
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+
+  box-shadow: 0 12px 30px rgba(2,6,23,0.35);
+  border: 1px solid rgba(255,255,255,0.12);
+  text-align: center;
+  overflow: hidden;
+}
+
+.celebrate {
+  font-size: clamp(26px, 5vw, 48px);
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: #2b2b2b;
+}
+
+.message {
+  font-size: clamp(14px, 2.5vw, 18px);
+  line-height: 1.6;
+  text-align: left;
+  white-space: pre-line;
+  margin-bottom: 20px;
+}
+
+/* Button */
+.btn-play {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  background: linear-gradient(90deg,#ff7a7a,#ffd36e);
+  border: none;
+  padding: 12px 22px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  transition: transform .14s ease, box-shadow .14s ease;
+}
+.btn-play .icon {
+  width: 18px; height: 18px;
+  display: inline-block;
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0));
+}
+
+/* -------------------
+   RESPONSIVE QUERIES
+   ------------------- */
+
+/* Tablet */
+@media (max-width: 768px) {
+  .card {
+    width: 90%;
+    padding: 24px;
+    border-radius: 16px;
+  }
+  .celebrate {
+    font-size: 32px;
+  }
+  .message {
+    font-size: 15px;
+  }
+  .btn-play {
+    padding: 10px 18px;
+    font-size: 15px;
+  }
+}
+
+/* Phone */
+@media (max-width: 480px) {
+  body {
+    align-items: flex-start;
+    padding: 16px;
+  }
+  .card {
+    width: 100%;
+    padding: 18px;
+    border-radius: 12px;
+  }
+  .celebrate {
+    font-size: 22px;
+  }
+  .message {
+    font-size: 14px;
+  }
+  .btn-play {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+}
+    /* Button (hidden muna) */
+    .btn-play {
+      display: none; /* default hidden */
+      gap: 10px;
+      align-items: center;
+      background: linear-gradient(90deg,#ff7a7a,#ffd36e);
+      border: none;
+      padding: 12px 22px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+      transition: transform .14s ease, box-shadow .14s ease, opacity .5s ease;
+      opacity: 0;
+    }
+    .btn-play.show {
+      display: inline-flex;
+      opacity: 1;
+    }
+    .btn-play:active { transform: translateY(2px); }
+    .btn-play .icon {
+      width: 18px; height: 18px;
+      display: inline-block;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0));
+      clip-path: polygon(0 0, 100% 50%, 0 100%);
+    }
+
+    /* Overlay video player */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(6,6,6,0.6);
+      z-index: 9999;
+      padding: 20px;
+    }
+    .overlay.open { display: flex; }
+
+    .overlay .video-box {
+      width: min(1000px, 98%);
+      max-height: 90vh;
+      background: #111;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 18px 60px rgba(0,0,0,0.6);
+    }
+    .overlay video {
+      width: 100%;
+      max-height: 80vh;
+      display: block;
+    }
+    .close-btn {
+      position: absolute;
+      right: 18px;
+      top: 18px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #fff;
+      padding: 8px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    /* dagdag cursor effect */
+  #title::after, #typingMessage::after {
+    content: "|";
+    animation: blink 0.7s infinite;
+    color: #444;
+    margin-left: 3px;
+  }
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    50.1%, 100% { opacity: 0; }
+  }
+
+  .btn-play {
+    display: none;
+    opacity: 0;
+    transition: opacity .5s ease;
+  }
+  .btn-play.show {
+    display: inline-flex;
+    opacity: 1;
+  }
+  </style>
+</head>
+<body>
+ <main class="card" role="main" aria-labelledby="title">
+  <h1 id="title" class="celebrate"></h1>
+  <p class="message" id="typingMessage"></p>
+
+  <button class="btn-play" id="playBtn" aria-haspopup="dialog" aria-controls="videoOverlay">
+    <span class="icon" aria-hidden="true"></span>
+    <span>Play Video</span>
+  </button>
+</main>
+
+
+  <!-- Video Overlay -->
+  <div class="overlay" id="videoOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <button class="close-btn" id="closeOverlay" aria-label="Close video (Escape)">✕</button>
+    <div class="video-box">
+      <video id="congratsVideo" controls playsinline>
+        <source src="highperformer.mp4" type="video/mp4" />
+      </video>
+    </div>
+  </div>
+
+  <script>
+     const titleText = "Congratulations Team Calumpit 🎉 3576";
+    const messageText = `I just want to take this moment to say congratulations to all of you. 
+We did it we passed the Tripple FSC audit and we’re officially a High Performer. 
+That title isn’t just a certificate or a badge. It’s proof of everything you’ve given: your time, your effort, your attention to detail even when others wouldn’t see what you see, 
+even when nobody else knew how hard the work behind the scenes really was. 
+
+I’m really happy—hindi lang dahil sa resulta, kundi dahil kung paano natin ito narating ng magkakasama. Yung pagkakaisa ninyo at suporta sa isa’t isa—’yan ang totoong nagdala sa atin dito.
+
+This High Performer status isn’t the finish line. It’s a milestone. It’s a reminder that with dedication and teamwork, we can reach higher. 
+Let’s keep this momentum. Let’s keep raising our bar, keeping our standards high, and continue showing what excellence looks like—because I know we can do it again, and even better next time. 
+
+Push our limits, Achieve more, and let’s keep making Team Calumpit a name that stands for quality and excellence.
+We earned this, and it’s ours together. 
+And last  I have a short Video for all of you. Please enjoy it.`;
+
+  // Typing effect
+
+ const titleElement = document.getElementById("title");
+  const typingElement = document.getElementById("typingMessage");
+  const playBtn = document.getElementById("playBtn");
+
+  let i = 0; // for title
+  let j = 0; // for message
+
+  function typeTitle() {
+    if (i < titleText.length) {
+      titleElement.textContent += titleText.charAt(i);
+      i++;
+      setTimeout(typeTitle, 80); // typing speed for title
+    } else {
+      setTimeout(typeMessage, 500); // delay before message starts
+    }
+  }
+
+  function typeMessage() {
+    if (j < messageText.length) {
+      typingElement.textContent += messageText.charAt(j);
+      j++;
+      setTimeout(typeMessage, 30); // typing speed for message
+    } else {
+      playBtn.classList.add("show"); // show button after typing
+    }
+  }
+
+  // Start typing when page loads
+  window.onload = typeTitle;
+
+  // Overlay logic
+  const overlay = document.getElementById("videoOverlay");
+  const closeBtn = document.getElementById("closeOverlay");
+  const video = document.getElementById("congratsVideo");
+
+  playBtn.addEventListener("click", () => {
+    overlay.classList.add("open");
+    overlay.setAttribute("aria-hidden", "false");
+    video.currentTime = 0;
+    video.play();
+  });
+
+  closeBtn.addEventListener("click", () => {
+    overlay.classList.remove("open");
+    overlay.setAttribute("aria-hidden", "true");
+    video.pause();
+  });
+
+  const typingSpeed = 80; // adjust mo dito speed (mas maliit = mas mabilis)
+
+function typeTitle() {
+  if (i < titleText.length) {
+    titleElement.textContent += titleText.charAt(i);
+    i++;
+    setTimeout(typeTitle, typingSpeed); // same speed
+  } else {
+    setTimeout(typeMessage, 500); // delay bago simulan message
+  }
+}
+
+function typeMessage() {
+  if (j < messageText.length) {
+    typingElement.textContent += messageText.charAt(j);
+    j++;
+    setTimeout(typeMessage, typingSpeed); // same speed
+  } else {
+    playBtn.classList.add("show");
+  }
+}
+</script>
+
+
+
+ 
+</script>
+</body>
+</html>
